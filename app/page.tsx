@@ -6,6 +6,7 @@ import { Plus, Sparkles, Grid } from 'lucide-react'
 import { PromptInput } from './components/PromptInput'
 import { AppCard } from './components/AppCard'
 import { AwaitingGeneration } from './components/AwaitingGeneration'
+import { EmptyState } from './components/EmptyState'
 
 interface GeneratedApp {
   id: string
@@ -77,70 +78,77 @@ export default function AppsmithForge() {
   return (
     <div className="min-h-screen bg-bg">
       <div className="container mx-auto px-4 py-6 max-w-md">
-        <header className="flex justify-between items-center mb-6">
-          <div className="flex items-center space-x-2">
-            <Sparkles className="w-6 h-6 text-primary" />
-            <h1 className="text-xl font-bold text-text">Appsmith Forge</h1>
+        <header className="flex justify-between items-center mb-8" role="banner">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-primary/10 rounded-lg" aria-hidden="true">
+              <Sparkles className="w-7 h-7 text-primary" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-text tracking-tight">Appsmith Forge</h1>
+              <p className="text-sm text-muted font-medium">Create mini-apps instantly</p>
+            </div>
           </div>
           
           <div className="flex space-x-2">
             {context && !context.client.added && (
               <button
                 onClick={handleAddFrame}
-                className="bg-accent text-white px-3 py-1 rounded text-sm hover:bg-accent/90 transition-colors"
+                className="bg-accent text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-accent/90 transition-colors min-h-[44px] min-w-[44px] focus:outline-none focus:ring-2 focus:ring-accent/50"
+                aria-label="Save frame to Farcaster"
               >
                 SAVE
               </button>
             )}
             <button
               onClick={() => openUrl('https://base.org')}
-              className="text-primary text-sm font-semibold hover:text-primary/80 transition-colors"
+              className="text-primary text-sm font-semibold hover:text-primary/80 transition-colors min-h-[44px] px-3 focus:outline-none focus:ring-2 focus:ring-primary/50 rounded-lg"
+              aria-label="Visit Base blockchain website"
             >
               BASE
             </button>
           </div>
         </header>
 
-        <main className="space-y-6">
-          <div className="card animate-fade-in">
-            <div className="text-center mb-4">
-              <h2 className="text-2xl font-bold text-text mb-2">Create Mini Apps Instantly</h2>
-              <p className="text-muted">Describe your app idea and watch it come to life</p>
+        <main className="space-y-6" role="main">
+          <section className="card animate-fade-in" aria-labelledby="create-app-heading">
+            <div className="text-center mb-6">
+              <h2 id="create-app-heading" className="text-3xl font-bold text-text mb-3 tracking-tight">Turn Ideas Into Apps</h2>
+              <p className="text-muted text-lg leading-relaxed">Describe your vision and watch it transform into a functional mini-app</p>
             </div>
             
             <PromptInput 
               onGenerate={handleGenerateApp}
               disabled={isGenerating}
             />
-          </div>
+          </section>
 
           {isGenerating && (
             <AwaitingGeneration prompt={currentPrompt} />
           )}
 
           {generatedApps.length > 0 && (
-            <div className="space-y-4">
+            <section className="space-y-4" aria-labelledby="your-apps-heading">
               <div className="flex items-center space-x-2">
-                <Grid className="w-5 h-5 text-primary" />
-                <h3 className="text-lg font-semibold text-text">Your Apps</h3>
+                <Grid className="w-5 h-5 text-primary" aria-hidden="true" />
+                <h3 id="your-apps-heading" className="text-lg font-semibold text-text">Your Apps</h3>
               </div>
               
-              {generatedApps.map((app) => (
-                <AppCard 
-                  key={app.id} 
-                  app={app}
-                  onCustomize={(id) => console.log('Customize app:', id)}
-                  onMonetize={(id) => console.log('Monetize app:', id)}
-                />
-              ))}
-            </div>
+              <div role="list" aria-label="Generated applications">
+                {generatedApps.map((app) => (
+                  <div key={app.id} role="listitem">
+                    <AppCard 
+                      app={app}
+                      onCustomize={(id) => console.log('Customize app:', id)}
+                      onMonetize={(id) => console.log('Monetize app:', id)}
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
           )}
 
           {generatedApps.length === 0 && !isGenerating && (
-            <div className="card text-center">
-              <Plus className="w-12 h-12 text-muted mx-auto mb-4" />
-              <p className="text-muted">No apps created yet. Use the primary button below to get started!</p>
-            </div>
+            <EmptyState />
           )}
         </main>
 
