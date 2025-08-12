@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: 220 70% 50%;
+    --accent: 160 70% 50%;
+    --bg: 220 10% 95%;
+    --surface: 0 0% 100%;
+    --text: 220 10% 10%;
+    --muted: 220 10% 60%;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  body {
+    background-color: hsl(var(--bg));
+    color: hsl(var(--text));
+  }
+}
+
+@layer components {
+  .btn-primary {
+    background-color: hsl(var(--primary));
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+  }
+  
+  .btn-primary:hover {
+    background-color: hsl(var(--primary) / 0.9);
+  }
+  
+  .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .btn-accent {
+    background-color: hsl(var(--accent));
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+  }
+  
+  .btn-accent:hover {
+    background-color: hsl(var(--accent) / 0.9);
+  }
+  
+  .card {
+    background-color: hsl(var(--surface));
+    border: 1px solid hsl(220 10% 90%);
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 4px 16px hsla(0,0%,0%,0.08);
+  }
+  
+  .input-field {
+    background-color: hsl(var(--surface));
+    border: 1px solid hsl(220 10% 80%);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: hsl(var(--text));
+    transition: all 0.2s ease-out;
+    width: 100%;
+  }
+  
+  .input-field:focus {
+    outline: none;
+    border-color: hsl(var(--primary));
+  }
+  
+  .input-field::placeholder {
+    color: hsl(var(--muted));
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.2s ease-out;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
